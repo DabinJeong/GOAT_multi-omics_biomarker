@@ -10,7 +10,7 @@ key biomarker candidates using the attention mechanism.
 
 # Setup
 ~~~
-conda create -n biomarker
+conda create -n biomarker python=3.9
 conda activate biomarker
 conda install -c bioconda nextflow=21.04.0
 ~~~
