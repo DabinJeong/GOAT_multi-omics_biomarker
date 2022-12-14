@@ -15,3 +15,5 @@ data/methylome filter=lfs diff=lfs merge=lfs -text
 data/proteome filter=lfs diff=lfs merge=lfs -text
 data/transcriptome filter=lfs diff=lfs merge=lfs -text
 data/Merged_clinical_subgroups_concat.tsv filter=lfs diff=lfs merge=lfs -text
+GO_basic/goa_human.gaf.filt filter=lfs diff=lfs merge=lfs -text
+GO_basic/GO_tree.tsv filter=lfs diff=lfs merge=lfs -text
