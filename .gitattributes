@@ -1,0 +1,8 @@
+metPropagate_dir/integration filter=lfs diff=lfs merge=lfs -text
+metPropagate_dir/METABOLOMIC_PROCESSING_PIPELINE filter=lfs diff=lfs merge=lfs -text
+metPropagate_dir/integration/graph_files filter=lfs diff=lfs merge=lfs -text
+metPropagate_dir/METABOLOMIC_PROCESSING_PIPELINE/HMDB_ver4_gene_metabolite_annotations.csv filter=lfs diff=lfs merge=lfs -text
+metPropagate_dir/integration/graph_files/string_db_percent_of_fn_in_hmdb_weight.csv filter=lfs diff=lfs merge=lfs -text
+metPropagate_dir/integration/graph_files/STRING_graph_file_v11_functional_entire_db.txt filter=lfs diff=lfs merge=lfs -text
+metPropagate_dir/integration/graph_files/STRING_graph_file_v11_gene_list_functional_entire_db.txt filter=lfs diff=lfs merge=lfs -text
+metPropagate_dir/integration/graph_files/STRING_graph_file_v11_gene_to_nodeid_mapping_functional_entire_db.txt filter=lfs diff=lfs merge=lfs -text
