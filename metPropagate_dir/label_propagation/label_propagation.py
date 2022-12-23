@@ -28,8 +28,6 @@ class Base(BaseEstimator, ClassifierMixin):
 
     def _init_label_matrix(self):
         n_samples = self.graph.shape[0]
-        print n_samples
-        print n_samples
         n_classes = 1
         s = [0] * n_samples
         return csr_matrix((np.zeros(n_samples), (range(n_samples), s)), shape = (n_samples, 1), dtype = float)
@@ -58,38 +56,20 @@ class Base(BaseEstimator, ClassifierMixin):
         self : returns an instance of self.
         """
         self.x_ = x
-        
         self.y_ = y
-        #for i in range(self.y_.shape(0)):
-    	#	print "%s %s" % (i,self.y_[i])
         self._arrange_params()
         
 
         self.F_ = self._init_label_matrix()
-        #f = open("initial_labels", "w+")
-        #print >> f, 'Node ID,Score ID'
-        #for i in range(self.F_.shape[0]):
-        #    print >> f, "%s,%s" % (i,self.F_[i,0])
         self.P_ = self._build_propagation_matrix()
         self.B_ = self._build_base_matrix()
 		
         remaining_iter = self.max_iter
         while remaining_iter > 0:
-            
-            #f = open(str(remaining_iter), "w+")
-            #print >> f, 'Node ID,Score ID'
-            #for i in range(self.F_.shape[0]):
-    		#    print >> f, "%s,%s" % (i,self.F_[i,0])
-            
             self.F_ = self._propagate()
-    		
             remaining_iter -= 1
         
         return self 
-        #g = open("right_before_passing_back_to_main", "w+")
-        #print >> g, 'Node ID,Score ID'
-        #for i in range(self.F_.shape[0]):
-        #    print >> g, "%s,%s" % (i,self.F_[i,0])
             
         
 
@@ -158,7 +138,6 @@ class LGC(Base):
 
     def _build_propagation_matrix(self):
         """ LGC computes the normalized Laplacian as its propagation matrix"""
-        #print >> self.f, 'in build propagation matix'
         degrees = self.graph.sum(axis=0).A[0]
         degrees[degrees==0] += 1  # Avoid division by 0
         D2 = np.sqrt(sparse.diags((1.0/degrees),offsets=0))
@@ -166,7 +145,6 @@ class LGC(Base):
         return self.alpha*S
 
     def _build_base_matrix(self):
-        #print >> self.f, 'in build base matrix'
         n_samples = self.graph.shape[0]
         #n_classes = 1
         #B = np.zeros((n_samples,n_classes))
