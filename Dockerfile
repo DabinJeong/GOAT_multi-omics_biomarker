@@ -8,6 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y apt-utils && apt-get install -y wget
 RUN apt-get update && apt-get install -y python3-pip
+RUN apt-get install -y build-essential libcurl4-openssl-dev libxml2-dev libssl-dev
 
 ## install R
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/" >> /etc/apt/sources.list
@@ -15,7 +16,9 @@ RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc |
 RUN apt-get update
 RUN apt-get install -y r-base
 RUN Rscript -e "if (!require('BiocManager', quietly = TRUE)) install.packages('BiocManager')"
-RUN Rscript -e "install.packages('argparse')"
+RUN Rscript -e "install.packages('argparse', dependencies = TRUE)"
+RUN Rscript -e "install.packages('tidyverse',dependencies = TRUE)"
+RUN PATH=/usr/bin/R:$PATH;export PATH
 
 ## Install miniconda
 ENV PATH /opt/conda/bin:$PATH
