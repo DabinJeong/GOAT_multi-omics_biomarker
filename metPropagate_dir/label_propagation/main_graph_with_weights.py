@@ -50,8 +50,6 @@ args = p.parse_args()
 G = read_graphfile(args.graphfile).tolil()
 x,y = read_labelfile(args.labelfile)
 
-#for i in range(y.shape):
-#    		print "%s %s" % (i,str(y[i,]))
 if args.subparser_name == 'hmn':
     clf = HMN(graph=G)
 elif args.subparser_name == 'lgc':
@@ -68,6 +66,6 @@ clf.fit(x,y)
 #predicted = clf.predict_proba(np.arange(G.shape[0]))
 final_F = clf.F_
 
-print >>args.outfile, 'Node ID,Score ID'
+print('Node ID,Score ID', file=args.outfile)
 for i in range(final_F.shape[0]):
-    print >>args.outfile, "%s,%s" % (i,final_F[i,0])
+    print("%s,%s" % (i,final_F[i,0]), file=args.outfile)

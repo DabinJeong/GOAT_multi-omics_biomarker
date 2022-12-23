@@ -36,12 +36,12 @@ process DEOmics{
 
         output:
                 publishDir
-                tuple file("DEMETA_in_${label}"),file("DEPRO_in_${label}"), file("DEG_in_${label}"), file("DEP_in_${label}")
+                tuple file("DEMETA_in_${label}"),file("DEPRO_in_${label}")
         
         script:
         """
-        python $baseDir/modules/DEomics.py --subgroup ${label} --clinical ${clinical_train} --omics ${metabolome} --out DEMETA_in_${label}&
-        python $baseDir/modules/DEomics.py --subgroup ${label} --clinical ${clinical_train} --omics ${proteome} --out DEPRO_in_${label}&
+        python $baseDir/modules/DEomics.py --subgroup ${label} --clinical ${clinical_train} --omics ${metabolome} --out DEMETA_in_${label}
+        python $baseDir/modules/DEomics.py --subgroup ${label} --clinical ${clinical_train} --omics ${proteome} --out DEPRO_in_${label}
         """
 }
 
@@ -52,7 +52,7 @@ process metPropagate{
         memory "${params.mem} GB"
 
         input:
-                tuple file(DEMETA),file(DEPRO),file(DEG),file(DEP)
+                tuple file(DEMETA),file(DEPRO)
                 path STRING_nwk_dir
                 path metabolome 
                 path metabolome_identifier 
@@ -87,7 +87,7 @@ process metPropagate{
                 output_file="./integration/LPA_output/\$patient"
 
                 ## ./integration
-                python2 ${params.metPropagate_dir}/label_propagation/main_graph_with_weights.py lgc -g ${STRING_nwk_dir}/STRING_graph_file_v11_functional_entire_db.txt -l \$intermediate_label_file_name -o \$output_file
+                python ${params.metPropagate_dir}/label_propagation/main_graph_with_weights.py lgc -g ${STRING_nwk_dir}/STRING_graph_file_v11_functional_entire_db.txt -l \$intermediate_label_file_name -o \$output_file
 
                 Rscript ${params.metPropagate_dir}/integration/assign_z_scores_and_interpret.R \$patient ${STRING_nwk_dir}/string_db_percent_of_fn_in_hmdb_weight.csv ${STRING_nwk_dir}/STRING_graph_file_v11_gene_to_nodeid_mapping_functional_entire_db.txt \$output_file ./integration/label_files/STRING_\$patient ./integration/results/\$patient"_STRING_ranked_label_propagation_scores.csv"
         done
@@ -106,7 +106,7 @@ process seed_generation{
                 val k 
                 val pval
                 tuple file(DAMgene_group1),file(DAMgene_group2)
-                tuple file(DEMETA),file(DEPRO),file(DEG),file(DEP)
+                tuple file(DEMETA),file(DEPRO)
         output:
                 publishDir
                 tuple file("PRO_DAMgene_${params.label}_1_seed"),file("PRO_DAMgene_${params.label}_2_seed")
@@ -148,7 +148,7 @@ process propagation{
         """
         python $baseDir/modules/filter_exp.py --transcriptome ${transcriptome} --clinical ${clinical_train} --label ${params.label} --out "transcript_exp"  
         python $baseDir/modules/instantiate_nwk.py ${network} "transcript_exp" -o "${params.label}_transcript-transcript_nwk" -nThreads 50 -corrCut ${corrThr}
-        python $baseDir/modules/GO_similarity_nwk_w.py --GOgraph ${GO_graph} --gene2GO_annot ${GO_gene2GO} --templateNwk "${params.label}_transcript-transcript_nwk" --out "functional_sim_nwk" 
+        python $baseDir/modules/GO_similarity_nwk.py --GOgraph ${GO_graph} --gene2GO_annot ${GO_gene2GO} --templateNwk "${params.label}_transcript-transcript_nwk" --out "functional_sim_nwk" 
         python $baseDir/modules/network_propagation.py "${params.label}_transcript-transcript_nwk" "functional_sim_nwk" ${seed1} -addBidirectionEdge True --teleport_prob 0.7 -o "prop_out_PRO_DAMgene_1" 
         python $baseDir/modules/network_propagation.py "${params.label}_transcript-transcript_nwk" "functional_sim_nwk" ${seed2} -addBidirectionEdge True --teleport_prob 0.7 -o "prop_out_PRO_DAMgene_2" 
         """
@@ -174,15 +174,9 @@ process classification_GCN{
                 tuple file("GNN_ourBiomarker.TransformerConv.best_model"),file("GNN_ourBiomarker.performance.txt")
         script:
         """
-        python $baseDir/modules/prediction_model.py --label "${params.label}" -t ${transcriptome} -m ${methylome} -p ${proteome} -clin ${clinical} -train_samples ${train_samples} -test_samples ${test_samples} -featureSelection "ourBiomarker" -propOut1 ${prop_out_1} -propOut2 ${prop_out_2} -K ${params.K} -exp_name "GNN_ourBiomarker_teleport" -nwk ${inst_nwk}&
-
+        python $baseDir/modules/prediction_model.py --label "${params.label}" -t ${transcriptome} -m ${methylome} -p ${proteome} -clin ${clinical} -train_samples ${train_samples} -test_samples ${test_samples} -featureSelection "ourBiomarker" -propOut1 ${prop_out_1} -propOut2 ${prop_out_2} -K ${params.K} -exp_name "GNN_ourBiomarker" -nwk ${inst_nwk}
         """ 
 }
-
-
-/*
- * run pipeline
- */
 
 workflow {
           TrainTestSplit(file(params.clinical))

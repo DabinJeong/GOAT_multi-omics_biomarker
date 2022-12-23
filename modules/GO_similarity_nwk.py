@@ -4,7 +4,6 @@ import pandas as pd
 import networkx as nx
 from itertools import permutations, product
 from multiprocessing import Pool
-import parmap
 import time 
 import datetime
 
