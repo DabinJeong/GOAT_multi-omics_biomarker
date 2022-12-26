@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.2-base-ubuntu18.04
+FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04 
 
 LABEL maintainer="Dabin Jeong"
 
@@ -7,7 +7,6 @@ ENV DEBCONF_NOWARNINGS yes
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y apt-utils && apt-get install -y wget
-RUN apt-get update && apt-get install -y python3-pip
 RUN apt-get install -y build-essential libcurl4-openssl-dev libxml2-dev libssl-dev
 
 ## install R
@@ -35,7 +34,12 @@ ADD ./environment.yml .
 RUN mamba env update --file ./environment.yml &&\
     conda clean -tipy
 
-RUN conda init bash
+RUN conda init bash 
+
+## Install torch, torch-geometric
+RUN pip install torch==1.8.1+cu101 torchvision==0.9.1+cu101 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
+RUN pip install torch-scatter torch-sparse==0.6.12 -f https://data.pyg.org/whl/torch-1.8.1+cu101.html
+RUN pip install torch-geometric
 
 COPY modules/* /tools/
 
