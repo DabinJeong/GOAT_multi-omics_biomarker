@@ -180,8 +180,31 @@ process classification_GCN{
         """ 
 }
 
-workflow {
-          TrainTestSplit(file(params.clinical))
+process biomarker{
+        publishDir "${params.publish_dir}_${params.iter}_${params.kFold}/${task.process.replaceAll(':', '_')}", mode: "copy"
+
+        cpus params.cpus 
+        memory "${params.mem} GB"
+
+
+        input:
+                tuple file(model),file(performance)
+                tuple file(train_samples), file(test_samples), file(clinical_train)
+                tuple file(prop_out_1), file(prop_out_2), file(inst_nwk), file(functional_sim_nwk)
+                path clinical
+                path transcriptome
+                path methylome
+                path proteome
+                  
+        output:
+                file('Network_of_biomarkers.txt')
+        script:
+        """
+        python $baseDir/modules/biomarker.py -label "${params.label}" -t ${transcriptome} -m ${methylome} -p ${proteome} -clin ${clinical} -model ${model} -train_samples ${train_samples} -test_samples ${test_samples} -nwk ${inst_nwk} -K ${params.K} -propOut1 ${prop_out_1} -propOut2 ${prop_out_2} -att_thr 1 -out "Network_of_biomarkers.txt" 
+        """
+}
+
+workflow {TrainTestSplit(file(params.clinical))
           DEOmics(params.label,
                   TrainTestSplit.out,
                   file(params.proteome),
@@ -209,4 +232,11 @@ workflow {
                              file(params.transcriptome),
                              file(params.methylome),
                              file(params.proteome))
+          biomarker(classification_GCN.out,
+                    TrainTestSplit.out,
+                    propagation.out,
+                    file(params.clinical),
+                    file(params.transcriptome),
+                    file(params.methylome),
+                    file(params.proteome))
 }
