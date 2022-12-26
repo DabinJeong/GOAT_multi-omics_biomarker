@@ -4,8 +4,8 @@
  */
 nextflow.enable.dsl = 2
 
-params.cpus = "5"
-params.mem = "100" //GB
+params.cpus = "100"
+params.mem = "500" //GB
 
 process TrainTestSplit{
         publishDir "${params.publish_dir}_${params.iter}_${params.kFold}/${task.process.replaceAll(':', '_')}", mode: "copy"
@@ -161,7 +161,6 @@ process classification_GCN{
         cpus params.cpus 
         memory "${params.mem} GB"
 
-
         input:
                 tuple file(train_samples), file(test_samples), file(clinical_train)
                 tuple file(prop_out_1), file(prop_out_2), file(inst_nwk), file(functional_sim_nwk)
@@ -172,6 +171,9 @@ process classification_GCN{
                   
         output:
                 tuple file("GNN_ourBiomarker.TransformerConv.best_model"),file("GNN_ourBiomarker.performance.txt")
+
+        beforeScript "ulimit -Ss unlimited"
+        
         script:
         """
         python $baseDir/modules/prediction_model.py --label "${params.label}" -t ${transcriptome} -m ${methylome} -p ${proteome} -clin ${clinical} -train_samples ${train_samples} -test_samples ${test_samples} -featureSelection "ourBiomarker" -propOut1 ${prop_out_1} -propOut2 ${prop_out_2} -K ${params.K} -exp_name "GNN_ourBiomarker" -nwk ${inst_nwk}

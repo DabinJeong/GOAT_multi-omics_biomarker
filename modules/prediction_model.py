@@ -158,11 +158,11 @@ if __name__=="__main__":
     # normalize input data
     scaler = MinMaxScaler() 
     
-    transcriptome_filt_raw = transcriptome.T.loc[set(transcriptome.T.index) & set(all_samples_clinical),
+    transcriptome_filt_raw = transcriptome.T.loc[list(set(transcriptome.T.index) & set(all_samples_clinical)),
                                                  transcriptome.T.columns.intersection(genes)]
-    methylome_filt_raw = methylome.T.loc[set(methylome.T.index) & set(all_samples_clinical),
+    methylome_filt_raw = methylome.T.loc[list(set(methylome.T.index) & set(all_samples_clinical)),
                                          methylome.T.columns.intersection(genes)]
-    proteome_filt_raw = proteome.T.loc[set(proteome.T.index) & set(all_samples_clinical),
+    proteome_filt_raw = proteome.T.loc[list(set(proteome.T.index) & set(all_samples_clinical)),
                                        proteome.T.columns.intersection(genes)]
     
     transcriptome_filt = pd.DataFrame(scaler.fit_transform(transcriptome_filt_raw.T).T, 
@@ -292,8 +292,8 @@ if __name__=="__main__":
     graph_val_loader = torch_geometric.loader.DataLoader(graph_valid_data,shuffle=True,batch_size=BATCH_SIZE,worker_init_fn=seed_worker,generator=g,num_workers=0)
     graph_test_loader = torch_geometric.loader.DataLoader(Asthma_test,batch_size=1,worker_init_fn=seed_worker,generator=g,num_workers=0)
     
-    #args.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    args.device = 'cpu'
+    args.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print(args.device)
     args.epochs = 40
     args.test = True
     args.learning_rate =  0.001
