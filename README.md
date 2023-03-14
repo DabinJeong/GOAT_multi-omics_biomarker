@@ -11,7 +11,7 @@ We propose a novel deep attention model for biomarker discovery for the asthma s
 # Setup
 ## Build docker image
 ~~~
-docker build --tag biomarker:0.1.0 .
+docker build --tag biomarker:0.1.1 .
 ~~~
 ## Install workflow manager: Nextflow
 ~~~
