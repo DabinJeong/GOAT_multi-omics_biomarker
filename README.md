@@ -4,7 +4,7 @@
 * [Run](#run)
 
 # Project description
-![workflow](./img/method_overview.pdf)  
+![workflow](./img/method_overview.png)  
 We propose a novel deep attention model for biomarker discovery for the asthma subtype by incorporating complex interactions between biomolecules in the deep learning model and capturing key biomarker candidates using the attention mechanism.
 
 
