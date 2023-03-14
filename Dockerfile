@@ -19,26 +19,26 @@ RUN Rscript -e "install.packages('tidyverse',dependencies = TRUE)"
 RUN PATH=/usr/bin/R:$PATH;export PATH
 
 ### Install miniconda
-#ENV PATH /opt/conda/bin:$PATH
-#RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-py37_4.11.0-Linux-x86_64.sh -O /tmp/miniconda.sh && \
-#    echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
-#    /bin/bash /tmp/miniconda.sh -b -p /opt/conda && \
-#    rm -rf /tmp/*
-#
-### Install mamba
-#RUN conda update -n base -c defaults conda
-#RUN conda install -y mamba -c conda-forge
-#
-#ADD ./environment.yml .
-#RUN mamba env update --file ./environment.yml &&\
-#    conda clean -tipy
-#
-#RUN conda init bash 
-#
-### Install torch, torch-geometric
-#RUN pip install torch==1.8.1+cu101 torchvision==0.9.1+cu101 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
-#RUN pip install torch-scatter torch-sparse==0.6.12 -f https://data.pyg.org/whl/torch-1.8.1+cu101.html
-#RUN pip install torch-geometric
+ENV PATH /opt/conda/bin:$PATH
+RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-py37_4.11.0-Linux-x86_64.sh -O /tmp/miniconda.sh && \
+    echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
+    /bin/bash /tmp/miniconda.sh -b -p /opt/conda && \
+    rm -rf /tmp/*
+
+## Install mamba
+RUN conda update -n base -c defaults conda
+RUN conda install -y mamba -c conda-forge
+
+ADD ./environment.yml .
+RUN mamba env update --file ./environment.yml &&\
+    conda clean -tipy
+
+RUN conda init bash 
+
+## Install torch, torch-geometric
+RUN pip install torch==1.8.1+cu101 torchvision==0.9.1+cu101 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
+RUN pip install torch-scatter torch-sparse==0.6.12 -f https://data.pyg.org/whl/torch-1.8.1+cu101.html
+RUN pip install torch-geometric
 
 COPY modules/* /tools/
 
