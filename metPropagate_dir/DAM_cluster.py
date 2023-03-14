@@ -36,7 +36,7 @@ meta_norm_gene_HMDB.columns = meta_norm_gene_HMDB.columns.astype(int)
 all_clinical_subtypes = pd.read_csv(args.clinical,sep='\t',index_col=0).T
 
 for clinical_feature in [args.subgroup_label]:
-    sg = pd.DataFrame(all_clinical_subtypes.loc[clinical_feature,:].dropna().astype(str)).sort_values(by=clinical_feature)
+    sg = pd.DataFrame(all_clinical_subtypes.loc[clinical_feature,:].dropna().astype(int)).sort_values(by=clinical_feature)
     sg.index=sg.index.astype(int)
     sg.index.rename('SUBJNO',inplace=True)
     sg_dict = sg.reset_index().groupby(clinical_feature)['SUBJNO'].apply(list)
@@ -53,8 +53,8 @@ with open('{}/DEMETA_in_{}_2_seed'.format(args.dir_DAM,args.subgroup_label)) as 
     seed2 = f.read().strip().split('\n')
 
 dict_metabolites_sg = {}
-dict_metabolites_sg['1'] = seed1
-dict_metabolites_sg['2'] = seed2
+dict_metabolites_sg[1] = seed1
+dict_metabolites_sg[2] = seed2
 
 metabolite_set = pd.read_csv( args.dir_exec +"/METABOLOMIC_PROCESSING_PIPELINE/HMDB_ver4_gene_metabolite_annotations.csv")
 
@@ -63,8 +63,8 @@ gene_meta_mapper = metabolite_set.groupby('gene_name')['HMDB_ids'].apply(list)
 background = meta_norm_gene_b_HMDB.index.tolist()
 #background = sum(gene_meta_mapper,[])
 
-df_genes_1 = pd.DataFrame(gene_meta_mapper.map(lambda x:'{}/{}'.format(len(set(x).intersection(dict_metabolites_sg['1'])),len(set(x).union(dict_metabolites_sg['1']))))).rename(columns={'HMDB_ids':'numOverlap_meta'}).sort_values(by='numOverlap_meta',ascending=False)
-df_genes_2 = pd.DataFrame(gene_meta_mapper.map(lambda x:'{}/{}'.format(len(set(x).intersection(dict_metabolites_sg['2'])),len(set(x).union(dict_metabolites_sg['2']))))).rename(columns={'HMDB_ids':'numOverlap_meta'}).sort_values(by='numOverlap_meta',ascending=False)
+df_genes_1 = pd.DataFrame(gene_meta_mapper.map(lambda x:'{}/{}'.format(len(set(x).intersection(dict_metabolites_sg[1])),len(set(x).union(dict_metabolites_sg[1]))))).rename(columns={'HMDB_ids':'numOverlap_meta'}).sort_values(by='numOverlap_meta',ascending=False)
+df_genes_2 = pd.DataFrame(gene_meta_mapper.map(lambda x:'{}/{}'.format(len(set(x).intersection(dict_metabolites_sg[2])),len(set(x).union(dict_metabolites_sg[2]))))).rename(columns={'HMDB_ids':'numOverlap_meta'}).sort_values(by='numOverlap_meta',ascending=False)
 
 genes_1 = df_genes_1.loc[lambda x:x.numOverlap_meta.apply(lambda x:int(x.split('/')[0]))>0,:].index.tolist()
 genes_2 = df_genes_2.loc[lambda x:x.numOverlap_meta.apply(lambda x:int(x.split('/')[0]))>0,:].index.tolist()
