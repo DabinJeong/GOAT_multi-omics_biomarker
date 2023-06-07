@@ -22,5 +22,5 @@ conda install -c bioconda nextflow=21.04.0
 
 # Run
 ~~~
-nextflow run biomarker_discovery.nf -c pipeline.config -with-docker biomarker:0.1.0
+nextflow run biomarker_discovery.nf -c pipeline.config -with-docker biomarker:0.1.1
 ~~~
