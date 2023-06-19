@@ -4,26 +4,26 @@
  */
 nextflow.enable.dsl = 2
 
-params.cpus = "100"
-params.mem = "500" //GB
+params.cpus = "10"
+params.mem = "100" //GB
 
 process TrainTestSplit{
-        publishDir "${params.publish_dir}_${params.iter}_${params.kFold}/${task.process.replaceAll(':', '_')}", mode: "copy"
+        publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy"
         
         input:
                path clinical 
         output:
                publishDir 
-               tuple file("${params.kFold}_${params.label}_samples_train.txt"),file("${params.kFold}_${params.label}_samples_test.txt"),file("${params.kFold}_Merged_clinical_${params.label}_train.tsv") 
+               tuple file("${params.label}_samples_train.txt"),file("${params.label}_samples_test.txt"),file("Merged_clinical_train.tsv") 
         script:
         """
-        python $baseDir/modules/train_test_split.py --label ${params.label} --clin ${clinical} --iter ${params.iter} --seed ${params.kFold}
+        python $baseDir/modules/train_test_split.py --label ${params.label} --clin ${clinical} --fold ${params.kFold}
         """
 
 }
 
 process DEOmics{
-        publishDir "${params.publish_dir}_${params.iter}_${params.kFold}/${task.process.replaceAll(':', '_')}", mode: "copy"
+        publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy"
 
         memory "${params.mem} GB"
         
@@ -47,7 +47,7 @@ process DEOmics{
 
 
 process metPropagate{
-        publishDir "${params.publish_dir}_${params.iter}_${params.kFold}/${task.process.replaceAll(':', '_')}", mode: "copy"
+        publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy"
 
         memory "${params.mem} GB"
 
@@ -98,7 +98,7 @@ process metPropagate{
 }
 
 process seed_generation{
-        publishDir "${params.publish_dir}_${params.iter}_${params.kFold}/${task.process.replaceAll(':', '_')}", mode: "copy"
+        publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy"
 
         memory "${params.mem} GB"
 
@@ -126,7 +126,7 @@ process seed_generation{
 
 
 process propagation{
-        publishDir "${params.publish_dir}_${params.iter}_${params.kFold}/${task.process.replaceAll(':', '_')}", mode: "copy"
+        publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy"
 
         cpus params.cpus
         memory "${params.mem} GB"
@@ -156,7 +156,7 @@ process propagation{
 
 
 process classification_GCN{
-        publishDir "${params.publish_dir}_${params.iter}_${params.kFold}/${task.process.replaceAll(':', '_')}", mode: "copy"
+        publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy"
 
         cpus params.cpus 
         memory "${params.mem} GB"
@@ -181,7 +181,7 @@ process classification_GCN{
 }
 
 process biomarker{
-        publishDir "${params.publish_dir}_${params.iter}_${params.kFold}/${task.process.replaceAll(':', '_')}", mode: "copy"
+        publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy"
 
         cpus params.cpus 
         memory "${params.mem} GB"

@@ -52,8 +52,8 @@ class GCNNet(torch.nn.Module):
             self.conv_feat_dim = conv_feat_dim
             
             self.layer_cell = 1
-            self.conv1 = torch_geometric.nn.TransformerConv(self.input_dim, self.conv_feat_dim,heads=3,beta=False,concat=True)
-            
+            self.conv1 = torch_geometric.nn.TransformerConv(self.input_dim, self.conv_feat_dim,heads=2,concat=False)
+            #self.conv1 = torch_geometric.nn.TransformerConv(self.input_dim, self.conv_feat_dim)
         def forward(self, data):
             # input Data Object
             x, edge_index, batch = data.x, data.edge_index, data.batch

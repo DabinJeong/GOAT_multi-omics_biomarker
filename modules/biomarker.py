@@ -18,7 +18,6 @@ def resurrect_test_acc(test_iterator, PATH, num_nodes, dim_node_features):
     att_list = []
     y_li , true_y_li = [],[]
     for data in test_iterator:
-        #import pdb;pdb.set_trace()
         data = data.to(device)
         out, att_edge, att_weights = model(data)
     
@@ -38,8 +37,8 @@ def resurrect_test_acc(test_iterator, PATH, num_nodes, dim_node_features):
     auprc = metrics.auc(recall,precision)
     auroc = metrics.auc(fpr,tpr)
     print(metrics.accuracy_score(true_y_li,np.array(y_li)>0.5))
-    mean_att = sum(att_list)/len(att_list)
-
+    mean_att = np.mean(sum(att_list)/len(att_list), axis=2)
+    #mean_att = sum(att_list)/len(att_list)
     return auroc, auprc, model, mean_att, true_y_li
 
 
