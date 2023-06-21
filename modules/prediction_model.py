@@ -287,7 +287,6 @@ if __name__=="__main__":
         numpy.random.seed(worker_seed)
         random.seed(worker_seed)
     
-    BATCH_SIZE = 10
     graph_train_loader = torch_geometric.loader.DataLoader(graph_train_data,shuffle=True,batch_size=BATCH_SIZE,worker_init_fn=seed_worker,generator=g,num_workers=0) 
     graph_val_loader = torch_geometric.loader.DataLoader(graph_valid_data,shuffle=True,batch_size=BATCH_SIZE,worker_init_fn=seed_worker,generator=g,num_workers=0)
     graph_test_loader = torch_geometric.loader.DataLoader(Asthma_test,batch_size=1,worker_init_fn=seed_worker,generator=g,num_workers=0)
@@ -297,7 +296,7 @@ if __name__=="__main__":
     args.epochs = 40
     args.test = True
     args.learning_rate =  0.001
-    args.batch_size = BATCH_SIZE
+    args.batch_size = 10
     args.weight_decay = 0 
     args.dropout_rate =  0.2
     device = args.device
