@@ -27,4 +27,4 @@ nextflow run biomarker_discovery.nf -c pipeline.config -with-docker biomarker:0.
 
 
 # Comparitive analysis
-For comparative analysis, please refer to the following repository, <a href="https://github.com/DabinJeong/Comparative_analysis_multi-omics_biomarker"> comparative_analysis_multi-omics_biomarker</a>
+For comparative analysis, please refer to the following repository, <a href="https://github.com/DabinJeong/Comparative_analysis_multi-omics_biomarker"> comparative_analysis_multi-omics_biomarker</a>.
