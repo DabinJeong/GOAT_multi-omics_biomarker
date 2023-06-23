@@ -27,10 +27,9 @@ RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-py37_4.11.0-Linu
 
 ## Install mamba
 RUN conda update -n base -c defaults conda
-RUN conda install -y mamba -c conda-forge
 
 ADD ./environment.yml .
-RUN mamba env update --file ./environment.yml &&\
+RUN conda env update --file ./environment.yml &&\
     conda clean -tipy
 
 RUN conda init bash 
