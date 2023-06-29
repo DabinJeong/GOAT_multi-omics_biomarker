@@ -131,21 +131,11 @@ if __name__ == "__main__":
         return nodes, edge_index
     
     nodes, edge_index = processing_topology(subgraph)
-    
-    def imputed_per_group(df):
-        global train_samples, dict_clinical, genes
-        group1 = df.loc[list(set.intersection(set(df.index), set(train_samples), set(dict_clinical[1]))),:].mode().iloc[0,:].median()
-        group2 = df.loc[list(set.intersection(set(df.index), set(train_samples), set(dict_clinical[2]))),:].mode().iloc[0,:].median()
-        return group1, group2
 
     def imputed(df):
         global train_samples
         median = df.loc[list(set.intersection(set(df.index), set(train_samples))),:].mode().iloc[0,:].median()
         return median
-
-    tr_1, tr_2 = imputed_per_group(transcriptome_filt)
-    m_1, m_2 = imputed_per_group(methylome_filt)
-    p_1, p_2 = imputed_per_group(proteome_filt)
 
     tr_ = imputed(transcriptome_filt)
     m_ = imputed(methylome_filt)
