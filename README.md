@@ -9,9 +9,14 @@ We propose a novel deep graph attention model for biomarker discovery for the as
 
 
 # Setup
-## Build docker image
+## Create docker image
+You can build a docker image from Dockerfile.
 ~~~
 docker build --tag biomarker:0.1.1 .
+~~~
+You can also download the docker image from Docker hub (https://hub.docker.com/repository/docker/dabinjeong/biomarker/general).
+~~~
+docker pull dabinjeong/biomarker:0.1.1
 ~~~
 ## Install workflow manager: Nextflow
 ~~~
