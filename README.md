@@ -12,7 +12,10 @@ We propose a novel deep graph attention model for biomarker discovery for the as
 ## Create docker image
 You can build a docker image from Dockerfile.
 ~~~
+# Pull base image from docker hub
 docker pull dabinjeong/cuda:10.1-cudnn7-devel-ubuntu18.04
+
+# Build docker image
 docker build --tag biomarker:0.1.1 .
 ~~~
 You can also download the docker image from Docker hub (https://hub.docker.com/repository/docker/dabinjeong/biomarker/general).
