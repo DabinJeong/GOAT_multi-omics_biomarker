@@ -54,7 +54,7 @@ dependencies:
     - numpy<1.19.0
     - pandas
     - pysam==0.19.1
-    - scikit-bio==0.5.7
+    - scikit-bio
     - sklearn
     - termcolor==1.1.0
     - threadpoolctl==3.0.0
