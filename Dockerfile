@@ -37,7 +37,7 @@ RUN conda init bash
 ## Install torch, torch-geometric
 RUN pip install torch==1.8.1+cu101 torchvision==0.9.1+cu101 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
 RUN pip install torch-scatter torch-sparse==0.6.12 -f https://data.pyg.org/whl/torch-1.8.1+cu101.html
-RUN pip install torch-geometric
+RUN pip install torch-geometric==2.2
 
 COPY modules/* /tools/
 
