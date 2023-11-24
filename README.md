@@ -34,7 +34,7 @@ For comparative analysis, please refer to the following repository, <a href="htt
 
 
 ## Citation
-'''
+```
 @article{jeong2023goat,
   title={GOAT: Gene-level biomarker discovery from multi-Omics data using graph ATtention neural network for eosinophilic asthma subtype},
   author={Jeong, Dabin and Koo, Bonil and Oh, Minsik and Kim, Tae-Bum and Kim, Sun},
@@ -45,4 +45,4 @@ For comparative analysis, please refer to the following repository, <a href="htt
   year={2023},
   publisher={Oxford University Press}
 }
-'''
+```
