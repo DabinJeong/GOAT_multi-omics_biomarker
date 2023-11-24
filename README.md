@@ -31,3 +31,18 @@ nextflow run biomarker_discovery.nf -c pipeline.config -with-docker biomarker:0.
 
 ## Comparitive analysis
 For comparative analysis, please refer to the following repository, <a href="https://github.com/DabinJeong/Comparative_analysis_multi-omics_biomarker"> comparative_analysis_multi-omics_biomarker</a>.
+
+
+## Citation
+'''
+@article{jeong2023goat,
+  title={GOAT: Gene-level biomarker discovery from multi-Omics data using graph ATtention neural network for eosinophilic asthma subtype},
+  author={Jeong, Dabin and Koo, Bonil and Oh, Minsik and Kim, Tae-Bum and Kim, Sun},
+  journal={Bioinformatics},
+  volume={39},
+  number={10},
+  pages={btad582},
+  year={2023},
+  publisher={Oxford University Press}
+}
+'''
