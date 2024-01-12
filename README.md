@@ -2,6 +2,7 @@
 ![workflow](./img/method_overview.png)  
 We propose a novel deep graph attention model for biomarker discovery for the asthma subtype by incorporating complex interactions between biomolecules and capturing key biomarker candidates using the attention mechanism.
 
+Full manuscript available [**here**](https://academic.oup.com/bioinformatics/article/39/10/btad582/7280697)
 ## Setup
 ### Create docker image
 You can build a docker image from Dockerfile.
