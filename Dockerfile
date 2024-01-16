@@ -25,7 +25,6 @@ RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-py37_4.11.0-Linu
     /bin/bash /tmp/miniconda.sh -b -p /opt/conda && \
     rm -rf /tmp/*
 
-## Install mamba
 RUN conda update -n base -c defaults conda
 
 ADD ./environment.yml .
