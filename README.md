@@ -1,6 +1,6 @@
 # GOAT: Gene-level biomarker discovery from multi-Omics data using graph ATtention neural network for eosinophilic asthma subtype 
 > [!NOTE]
-> **GOAT 2.0** has been released. Please checkout <a href="https://github.com/DabinJeong/GOAT2.0"> a github repository! </a>
+> **GOAT 2.0** has been released. Checkout <a href="https://github.com/DabinJeong/GOAT2.0"> here </a>, please.
 
 ![workflow](./img/method_overview.png)  
 We propose a novel deep graph attention model for biomarker discovery for the asthma subtype by incorporating complex interactions between biomolecules and capturing key biomarker candidates using the attention mechanism.
